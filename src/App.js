@@ -1,24 +1,51 @@
-import logo from './logo.svg';
 import './App.css';
+import Listing from './component/Listing';
+import { ThemeProvider } from '@emotion/react';
+import { useState } from 'react';
+import { CssBaseline, createTheme } from '@mui/material';
+import NavBar from './component/NavBar';
+import { amber, grey, red, lime, indigo } from '@mui/material/colors';
+
+
 
 function App() {
+  const [mode, setMode] = useState(false)
+  const THEME = createTheme({
+    palette: {
+      mode: mode ? 'dark' : 'light',
+      ...(mode? {
+        secondary: amber,
+        background: {
+          default: '#000000',
+          paper: '#000000'
+        },
+      } : {
+        primary: indigo,
+        secondary : {
+          main : '#fff'
+        },
+        text: {
+          primary: red[500],
+          secondary: grey[900]
+        }
+        
+      })
+    },
+    typography: {
+      fontFamily: 'Inter'
+    }
+  })
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+
+      <ThemeProvider theme={THEME} >
+        <CssBaseline />
+        <NavBar darkMode={mode} setDarkMode={setMode} />
+        <Listing />
+      </ThemeProvider>
+    </>
+
+
   );
 }
 
